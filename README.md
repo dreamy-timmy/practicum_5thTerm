@@ -1,7 +1,8 @@
 Programming practicum in OmSTU during 5th term
 This practicum was promised to be about TESTING
 
-**FIRST lab**:
+**FIRST LAB**:
+
 I have 3 following test cases:
 
 1) Вход с некорректными учетными данными
