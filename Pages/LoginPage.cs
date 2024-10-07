@@ -5,33 +5,20 @@ namespace Pages;
 
 public class LoginPage
 {
-  internal readonly IPage _page;
-  internal readonly ILocator username, password; 
-  internal readonly ILocator loginButton, title;
+  private readonly IPage _page;
+  private readonly ILocator _username, _password; 
+  private readonly ILocator _loginButton;
   public LoginPage(IPage page) 
   {
     _page = page;
-    username = page.GetByPlaceholder("Username");
-    password = page.GetByPlaceholder("Password");
-    loginButton = page.GetByRole(AriaRole.Button, new() { Name = "Login" });
-
-    title = page.Locator("[data-test='title']");
-
-  }
-  public ILocator Username
-  {
-    get {return username;}
+    _username = page.GetByPlaceholder("Username");
+    _password = page.GetByPlaceholder("Password");
+    _loginButton = page.GetByRole(AriaRole.Button, new() { Name = "Login" });
   }
 
-  public ILocator Password
-  {
-    get {return password;}
-  }
-
-  public IPage GetPage // for test purposes only
-  {
-    get => _page;
-  }
+  public async Task<bool> isThereNameField() => await _username.IsVisibleAsync(); 
+  public async Task<bool> isTherePasswordField() => await _password.IsVisibleAsync(); 
+  public async Task<bool> isTheErrorMessageAppeared() => await _page.Locator("div.error").IsVisibleAsync();
 
   public async Task GotoAsync(string link)
   {
@@ -40,15 +27,9 @@ public class LoginPage
 
   public async Task LoginAsync(string name, string p)
   {
-    await username.FillAsync(name);
-    await password.FillAsync(p);
-    await loginButton.ClickAsync();
+    await _username.FillAsync(name);
+    await _password.FillAsync(p);
+    await _loginButton.ClickAsync();
   }
-
-  public async Task<string> GetTitleAsync()
-  {
-    return await _page.TitleAsync(); // Метод для получения заголовка страницы
-  }
-
   
 }
